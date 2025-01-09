@@ -1,13 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 class Ball {
+private:
     sf::CircleShape circle;
     sf::Vector2f position;
     sf::Vector2f velocity;
     sf::Vector2f acceleration{0.f, 980.f};
-    int bounceCount;
+
     static constexpr float RADIUS{20.f};
     static constexpr float BOUNCE_COEFFICIENT{.5f};
     static constexpr float FRICTION_COEFFICIENT{.01f};
@@ -16,11 +18,13 @@ class Ball {
     static constexpr float GRAVITY_THRESHOLD{11.0f};
 
 public:
+    std::vector<Ball> balls;
+
     Ball(float x, float y);
     void update();
+    void readInput();
     void handleVerticalCollision();
     void handleHorizontalCollision();
     void draw(sf::RenderWindow& window) const;
-    int getBounceCount()const;
 
 };
