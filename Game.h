@@ -6,10 +6,7 @@
 
 class Game {
     sf::RenderWindow window;
-    Ball ball;
-    sf::Font font;
-    sf::Text bounceCountDisplay;
-
+    std::vector<Ball> balls;
 public:
     Game();
     void run();

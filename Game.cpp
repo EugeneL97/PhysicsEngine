@@ -2,18 +2,19 @@
 // Created by eugenel on 1/8/25.
 //
 #include <SFML/Graphics.hpp>
-#include <string>
 
 #include "Game.h"
+#include "Ball.h"
 #include "constants.h"
 
 Game::Game()
-    : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Verlet Integration Test"), ball(WINDOW_WIDTH / 2, 100.f){
+    : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Verlet Integration Test"){
     window.setFramerateLimit(FRAME_RATE);
 
-    bounceCountDisplay.setCharacterSize(24);
-    bounceCountDisplay.setFillColor(sf::Color::White);
-    bounceCountDisplay.setPosition(100,100);
+    for (int i = 0; i < 5; ++i) {
+        balls.emplace_back(WINDOW_WIDTH / 2 + i, 100.f * i);
+    }
+
 }
 
 void Game::run() {
@@ -32,15 +33,18 @@ void Game::handleEvents() {
         }
     }
 }
+
 void Game::update() {
-    ball.update();
-    bounceCountDisplay.setString("Bounces: " + std::to_string(ball.getBounceCount()));
+    for (auto& ball : balls) {
+        ball.update();
+    }
 }
 
 void Game::render() {
     window.clear(sf::Color::Black);
-    window.draw(bounceCountDisplay);
-    ball.draw(window);
+    for (auto& ball : balls) {
+        ball.draw(window);
+    }
     window.display();
 }
 
