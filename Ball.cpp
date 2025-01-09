@@ -5,20 +5,40 @@
 #include "constants.h"
 
 Ball::Ball(float x, float y)
-    : position{x,y}, velocity{50000.f, 0.f}, bounceCount{0} {
+    : position{x,y}, velocity{0.f, 0.f} {
     circle.setRadius(RADIUS);
     circle.setFillColor(sf::Color::Red);
     circle.setPosition(position);
 }
 
+
 void Ball::update() {
     velocity += acceleration * DT;
     position += velocity * DT;
 
+    readInput();
     handleVerticalCollision();
     handleHorizontalCollision();
 
     circle.setPosition(position);
+}
+void Ball::readInput() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed((sf::Keyboard::W))) {
+        velocity.y += -(position.x + position.y);
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed((sf::Keyboard::S))) {
+        velocity.y += position.x + position.y;
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed((sf::Keyboard::A))) {
+        velocity.x += -(position.x + position.y);
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed((sf::Keyboard::D))) {
+        velocity.x += position.x + position.y;
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        velocity = {0.f, 0.f};
+    }
+
 }
 void Ball::handleVerticalCollision() {
     float currentY = position.y + circle.getRadius() * 2;
@@ -38,7 +58,6 @@ void Ball::handleVerticalCollision() {
             position.y = 0;
         }
         velocity.y = -velocity.y * BOUNCE_COEFFICIENT;
-        bounceCount += 1;
     }
 }
 
@@ -54,15 +73,10 @@ void Ball::handleHorizontalCollision() {
             position.x = 0;
         }
         velocity.x = -velocity.x * BOUNCE_COEFFICIENT;
-        bounceCount += 1;
     }
 }
 void Ball::draw(sf::RenderWindow& window) const {
     window.draw(circle);
-}
-
-int Ball::getBounceCount() const {
-    return bounceCount;
 }
 
 
