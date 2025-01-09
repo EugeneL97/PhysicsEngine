@@ -48,8 +48,7 @@ void Ball::handleBallCollision(std::vector<Ball>& balls) {
             sf::Vector2f diff = balls[j].position - balls[i].position;
             float dist = std::hypot(diff.x, diff.y);
             float radiusSum = balls[i].getRadius() + balls[j].getRadius();
-            //TODO
-            //THIS IS ALL FUCKED!!!! We enter this if statement but the collisions are not applying
+
             if (dist <= radiusSum) {
                 sf::Vector2f normal = diff / dist;
                 float vA_normal = dot(balls[i].velocity, normal);
