@@ -36,13 +36,13 @@ void Game::handleEvents() {
 
 void Game::update() {
     for (auto& ball : balls) {
-        ball.update();
+        ball.update(balls);
     }
 }
 
 void Game::render() {
     window.clear(sf::Color::Black);
-    for (auto& ball : balls) {
+    for (const auto& ball : balls) {
         ball.draw(window);
     }
     window.display();

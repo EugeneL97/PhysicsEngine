@@ -18,13 +18,14 @@ private:
     static constexpr float GRAVITY_THRESHOLD{11.0f};
 
 public:
-    std::vector<Ball> balls;
-
     Ball(float x, float y);
-    void update();
+    void update(std::vector<Ball>& balls);
     void readInput();
+    void handleBallCollision(std::vector<Ball>& balls);
     void handleVerticalCollision();
     void handleHorizontalCollision();
     void draw(sf::RenderWindow& window) const;
 
+    float getRadius();
+    float dot(const sf::Vector2f& a, const sf::Vector2f& b);
 };
